@@ -1,35 +1,40 @@
 package main
 
 import (
-    "fmt"
     "io/ioutil"
     "log"
     "net/http"
 )
 
 func main() {
-    r, err := http.Get("https://in-session.house.gov/")
+    http.HandleFunc("/", inSession)
+    http.ListenAndServe(":80", nil)
+}
+
+func inSession(writer http.ResponseWriter, request *http.Request) {
+    upstream, err := http.Get("https://in-session.house.gov/")
 
     if err != nil {
         log.Fatal(err)
     }
 
-    defer r.Body.Close()
-    body, err := ioutil.ReadAll(r.Body)
+    defer upstream.Body.Close()
+    body, err := ioutil.ReadAll(upstream.Body)
 
     if err != nil {
         log.Fatal(err)
     }
 
-    var status int
+    if upstream.StatusCode != http.StatusOK {
+        writer.WriteHeader(upstream.StatusCode)
+    }
+
     switch string(body) {
         case "0":
-            status = 404
+            writer.WriteHeader(http.StatusNoContent)
         case "1":
-            status = 200
+            writer.WriteHeader(http.StatusOK)
         default:
-            log.Fatal(err)
+            writer.WriteHeader(http.StatusInternalServerError)
     }
-
-    fmt.Printf("%d\n", status)
 }
