@@ -1,1 +1,1 @@
-web: isthehouseinsession
+web: bin/isthehouseinsession
