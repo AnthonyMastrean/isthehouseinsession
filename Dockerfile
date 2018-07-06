@@ -1,5 +1,7 @@
 FROM golang:alpine
 
+LABEL maintainer="Anthony Mastrean <anthony.mastrean@gmail.com>"
+
 WORKDIR /go/src/github.com/AnthonyMastrean/isthehouseinsession
 
 COPY . .
