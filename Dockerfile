@@ -6,7 +6,7 @@ WORKDIR /go/src/github.com/AnthonyMastrean/isthehouseinsession
 
 COPY . .
 
-RUN go build -o isthehouseinsession
+RUN go build -v .
 
 EXPOSE 80
 
