@@ -1,9 +1,11 @@
 FROM golang:alpine
 
-WORKDIR /go/src/app
+WORKDIR /go/src/github.com/AnthonyMastrean/isthehouseinsession
+
 COPY . .
 
-RUN go get -d -v ./...
-RUN go install -v ./...
+RUN go build -o isthehouseinsession
 
-CMD ["app"]
+EXPOSE 80
+
+ENTRYPOINT ["./isthehouseinsession"]
