@@ -18,7 +18,6 @@ func inSession(writer http.ResponseWriter, request *http.Request) {
         log.Fatal(err)
     }
 
-    defer upstream.Body.Close()
     body, err := ioutil.ReadAll(upstream.Body)
 
     if err != nil {
